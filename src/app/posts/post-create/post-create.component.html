@@ -1,0 +1,27 @@
+<h1>Welcome to the post create component</h1>
+<mat-card>
+  <form>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name='title'
+        ngModel
+        required>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        name="content"
+        ngModel
+        required></textarea>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="onAddPost()">Save Post</button>
+  </form>
+</mat-card>
+
+<p>{{post}}</p>
+
