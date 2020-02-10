@@ -49,7 +49,15 @@ router.post("", multer({storage: storage}).single("image"), (req, res, next) => 
   });
 });
 
-router.put("/:id", (req, res, next) => {
+router.put(
+  "/:id",
+  multer({ storage: storage }).single("image"),
+  (req, res, next) => {
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      imagePath = url + "/images/" + req.file.filename;
+    }
   const post = new Post({
     _id: req.body.id,
     title: req.body.title,
@@ -58,15 +66,30 @@ router.put("/:id", (req, res, next) => {
   Post.updateOne({ _id: req.params.id }, post).then(result => {
     res.status(200).json({ message: "Update successful!" });
   });
+
 });
 
 router.get("", (req, res, next) => {
-  Post.find().then(documents => {
+  const pageSize = +req.query.pageSize;
+  const currentPage = +req.query.page;
+  const postQuery = Post.find();
+  let fetchedPosts;
+  if(pageSize && currentPage){
+    postQuery
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize);
+  }
+  postQuery.then(documents => {
+    fetchedPosts = documents
+    return Post.count();
+  })
+  .then(count => {
     res.status(200).json({
       message: "Posts fetched successfully!",
-      posts: documents
+      posts: fetchedPosts,
+      maxPosts: count
     });
-  });
+  })
 });
 
 router.get("/:id", (req, res, next) => {

@@ -6,6 +6,10 @@ mat-spinner {
   margin: auto;
 }
 
+mat-paginator{
+  margin-top: 1rem;
+}
+
 .image-path{
   width: 100%;
   height: auto;
