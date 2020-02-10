@@ -1,3 +1,18 @@
 .info-text{
   text-align: center;
 }
+
+mat-spinner {
+  margin: auto;
+}
+
+.image-path{
+  width: 100%;
+  height: auto;
+}
+
+.image-path img{
+  width: 100%;
+  height: auto;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
